@@ -1,11 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PriceCards from './components/PriceCards';
+import RESUME from "/assets/RESUME.png";
+import health from "/assets/health.png";
+import chatbot from "/assets/chatbot.png";
 import './App.css';
 
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setSuccess(false);
+  
+    const url =
+      "https://script.google.com/macros/s/AKfycbwnjsORxowSofHmNXXtONqSPkntx6ebr3SYvDu7PkpJSuUme49YjwrtMXLen1JyYz--/exec";
+  
+    const formData = new URLSearchParams();
+    formData.append("Name", e.target.querySelector('input[placeholder="Name"]').value.trim());
+    formData.append("Email", e.target.querySelector('input[placeholder="Email"]').value.trim());
+    formData.append("Message", e.target.querySelector('textarea[placeholder="Message"]').value.trim());
+  
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData.toString(),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          alert(data.message);
+          setSuccess(true);
+          e.target.reset(); // Clear the form
+        } else {
+          alert(`Error: ${data.message}`);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Something went wrong! Please try again.");
+      })
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -168,63 +211,63 @@ const App = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="services">
-        <div className="section-header">
-          <h2 className="section-title">Our Services</h2>
-          <p className="section-subtitle">Comprehensive solutions for your digital needs</p>
-        </div>
-        <div className="services-grid">
-          <div className="service-card">
-            <div className="service-icon">
-              <i className="fas fa-code"></i>
-            </div>
-            <h3>Full Stack Development</h3>
-            <p>Modern web applications using React, Node.js, and more</p>
-            <ul className="service-features">
-              <li>Custom Web Applications</li>
-              <li>API Development</li>
-              <li>Database Management</li>
-            </ul>
+        {/* Services Section */}
+        <section id="services" className="services">
+          <div className="section-header">
+            <h2 className="section-title">Our Services</h2>
+            <p className="section-subtitle">Comprehensive solutions for your digital needs</p>
           </div>
-          <div className="service-card">
-            <div className="service-icon">
-              <i className="fas fa-brain"></i>
+          <div className="services-grid">
+            <div className="service-card">
+              <div className="service-icon">
+                <i className="fas fa-code"></i>
+              </div>
+              <h3>Full Stack Development</h3>
+              <p>Modern web applications using React, Node.js, and more</p>
+              <ul className="service-features">
+                <li>Custom Web Applications</li>
+                <li>API Development</li>
+                <li>Database Management</li>
+              </ul>
             </div>
-            <h3>AI & Machine Learning</h3>
-            <p>Custom AI solutions and predictive models</p>
-            <ul className="service-features">
-              <li>Machine Learning Models</li>
-              <li>Natural Language Processing</li>
-              <li>Computer Vision</li>
-            </ul>
-          </div>
-          <div className="service-card">
-            <div className="service-icon">
-              <i className="fas fa-chart-line"></i>
+            <div className="service-card">
+              <div className="service-icon">
+                <i className="fas fa-brain"></i>
+              </div>
+              <h3>AI & Machine Learning</h3>
+              <p >Custom AI solutions and predictive models</p>
+              <ul className="service-features">
+                <li>Machine Learning Models</li>
+                <li>Natural Language Processing</li>
+                <li>Computer Vision</li>
+              </ul>
             </div>
-            <h3>Data Analytics</h3>
-            <p>Data-driven insights and visualizations</p>
-            <ul className="service-features">
-              <li>Business Intelligence</li>
-              <li>Data Visualization</li>
-              <li>Predictive Analytics</li>
-            </ul>
-          </div>
-          <div className="service-card">
-            <div className="service-icon">
-              <i className="fas fa-microchip"></i>
+            <div className="service-card">
+              <div className="service-icon">
+                <i className="fas fa-chart-line"></i>
+              </div>
+              <h3>Data Analytics</h3>
+              <p>Data-driven insights and visualizations</p>
+              <ul className="service-features">
+                <li>Business Intelligence</li>
+                <li>Data Visualization</li>
+                <li>Predictive Analytics</li>
+              </ul>
             </div>
-            <h3>IoT Solutions</h3>
-            <p>Smart devices and connected systems</p>
-            <ul className="service-features">
-              <li>IoT Device Development</li>
-              <li>Sensor Integration</li>
-              <li>Real-time Monitoring</li>
-            </ul>
+            <div className="service-card">
+              <div className="service-icon">
+                <i className="fas fa-microchip"></i>
+              </div>
+              <h3>IoT Solutions</h3>
+              <p>Smart devices and connected systems</p>
+              <ul className="service-features">
+                <li>IoT Device Development</li>
+                <li>Sensor Integration</li>
+                <li>Real-time Monitoring</li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* Price Cards Section */}
       <section id="pricing" className="pricing">
@@ -240,7 +283,7 @@ const App = () => {
         <div className="projects-grid">
           <div className="project-card">
             <div className="project-image">
-              <img src="https://via.placeholder.com/400x300" alt="Smart Resume Screening" />
+            <img src={RESUME} alt="Smart Resume Screening" />
             </div>
             <div className="project-content">
               <h3>Smart Resume Screening</h3>
@@ -254,7 +297,7 @@ const App = () => {
           </div>
           <div className="project-card">
             <div className="project-image">
-              <img src="https://via.placeholder.com/400x300" alt="Health Monitoring System" />
+              <img src={health} alt="Health Monitoring System" />
             </div>
             <div className="project-content">
               <h3>Health Monitoring System</h3>
@@ -268,7 +311,7 @@ const App = () => {
           </div>
           <div className="project-card">
             <div className="project-image">
-              <img src="https://via.placeholder.com/400x300" alt="E-commerce Chatbot" />
+              <img src={chatbot} alt="E-commerce Chatbot" />
             </div>
             <div className="project-content">
               <h3>E-commerce Chatbot</h3>
@@ -290,21 +333,22 @@ const App = () => {
           <p className="section-subtitle">Let's discuss your project</p>
         </div>
         <div className="contact-container">
-          <form className="contact-form">
-            <div className="form-group">
-              <input type="text" placeholder="Name" required />
-            </div>
-            <div className="form-group">
-              <input type="email" placeholder="Email" required />
-            </div>
-            <div className="form-group">
-              <textarea placeholder="Message" required></textarea>
-            </div>
-            <button type="submit" className="submit-button">
-              Send Message
-              <i className="fas fa-paper-plane"></i>
-            </button>
-          </form>
+          <form className="contact-form" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <input type="text" placeholder="Name" required />
+      </div>
+      <div className="form-group">
+        <input type="email" placeholder="Email" required />
+      </div>
+      <div className="form-group">
+        <textarea placeholder="Message" required></textarea>
+      </div>
+      <button type="submit" className="submit-button" disabled={loading}>
+        {loading ? "Sending..." : "Send Message"}
+        <i className="fas fa-paper-plane"></i>
+      </button>
+      {success && <div className="success-message">Message sent successfully!</div>}
+    </form>
           <div className="contact-info">
             <div className="info-item">
               <i className="fas fa-map-marker-alt"></i>
@@ -347,7 +391,7 @@ const App = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2024 AI-Yug Innovations. All rights reserved.</p>
+          <p>&copy; 2025 AI-Yug Innovations. All rights reserved.</p>
         </div>
       </footer>
     </div>

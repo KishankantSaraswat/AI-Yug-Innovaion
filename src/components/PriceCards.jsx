@@ -40,12 +40,21 @@ const PriceCards = () => {
     }
   ];
 
+  const handleCardClick = () => {
+    window.open('https://forms.gle/cLpjJuXjsezAYgcf7', '_blank');
+  };
+
   return (
     <div className="price-cards-container">
       <h2 className="section-title">What We Offer</h2>
       <div className="price-cards-wrapper">
         {tracks.map((track, index) => (
-          <div key={index} className="price-card">
+          <div 
+            key={index} 
+            className="price-card" 
+            onClick={handleCardClick}
+            style={{ cursor: 'pointer' }}
+          >
             <h3>{track.name}</h3>
             <div className="price-details">
               <div className="price-period">
@@ -81,4 +90,4 @@ const PriceCards = () => {
   );
 };
 
-export default PriceCards; 
+export default PriceCards;
